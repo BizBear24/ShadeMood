@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadeMood - AI Color Palette Generator</title>
+    <style>
+        /* Basic reset and styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #121212;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Futuristic container styling */
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 2em;
+            border-radius: 15px;
+            border: 2px solid #ffffff;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+            background: #1a1a1a;
+        }
+
+        /* Dropdown styling */
+        select {
+            background-color: #333;
+            color: #ffffff;
+            font-size: 1em;
+            border: 1px solid #ffffff;
+            padding: 0.5em;
+            width: 100%;
+            margin-top: 1em;
+            outline: none;
+            border-radius: 10px;
+        }
+
+        /* Button styling */
+        button {
+            margin-top: 1em;
+            padding: 0.7em 1.5em;
+            font-size: 1em;
+            background-color: #ffffff;
+            color: #121212;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Color palette display */
+        .palette {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2em;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .color-block {
+            width: 100px;
+            height: 100px;
+            transition: transform 0.3s;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+        .color-block:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .copy-btn {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            color: #121212;
+            border: none;
+            border-radius: 5px;
+            padding: 0.3em 0.7em;
+            font-size: 0.8em;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        .copy-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Futuristic title styling */
+        h1 {
+            font-size: 2em;
+            margin: 0;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        p {
+            margin-top: 0.5em;
+            color: #ffffff;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ShadeMood</h1>
+        <p>Pick a mood to generate a color palette:</p>
+
+        <!-- Mood selection dropdown -->
+        <select id="mood-select">
+            <option value="" disabled selected>Select a mood</option>
+            <option value="calm">Calm</option>
+            <option value="vibrant">Vibrant</option>
+            <option value="warm">Warm</option>
+            <option value="cool">Cool</option>
+            <option value="dark">Dark</option>
+            <option value="sunset">Sunset</option>
+            <option value="ocean">Ocean</option>
+            <option value="forest">Forest</option>
+            <option value="retro">Retro</option>
+            <option value="pastel">Pastel</option>
+            <option value="neutral">Neutral</option>
+            <option value="luxury">Luxury</option>
+            <option value="fresh">Fresh</option>
+            <option value="energetic">Energetic</option>
+            <option value="winter">Winter</option>
+            <option value="spring">Spring</option>
+            <option value="autumn">Autumn</option>
+            <option value="romantic">Romantic</option>
+            <option value="mystic">Mystic</option>
+            <option value="futuristic">Futuristic</option>
+        </select>
+
+        <!-- Generate button -->
+        <button onclick="generatePalette()">Generate Palette</button>
+
+        <!-- Color palette display -->
+        <div id="color-palette" class="palette"></div>
+    </div>
+
+    <script>
+        // Mood-based color palettes
+        const moodColors = {
+            calm: ["#A8DADC", "#457B9D", "#1D3557"],
+            vibrant: ["#FF6B6B", "#FFE66D", "#4ECDC4"],
+            warm: ["#FFB085", "#F9844A", "#F28482"],
+            cool: ["#1A535C", "#4ECDC4", "#F7FFF7"],
+            dark: ["#0A0A0A", "#3D3D3D", "#595959"],
+            sunset: ["#FF9A8B", "#FF6A88", "#FF99AC"],
+            ocean: ["#0077B6", "#00B4D8", "#90E0EF"],
+            forest: ["#264653", "#2A9D8F", "#E9C46A"],
+            retro: ["#FF7F11", "#FCBF49", "#FCCA46"],
+            pastel: ["#FFC8DD", "#FFAFCC", "#BDE0FE"],
+            neutral: ["#F5F5F5", "#A9A9A9", "#808080"],
+            luxury: ["#D4AF37", "#A67C00", "#3A3A3A"],
+            fresh: ["#9AE66E", "#36D399", "#00A3E0"],
+            energetic: ["#FF165D", "#FF9A00", "#FFDA03"],
+            winter: ["#4A90E2", "#7BA4E0", "#C0D6DF"],
+            spring: ["#98C379", "#FFD700", "#FF99C8"],
+            autumn: ["#D2691E", "#8B4513", "#FF4500"],
+            romantic: ["#FFC1E3", "#FF9CEE", "#F08080"],
+            mystic: ["#5A3E36", "#4C2C69", "#A45EE5"],
+            futuristic: ["#0D7377", "#14FFEC", "#323232"]
+        };
+
+        // Function to generate the color palette
+        function generatePalette() {
+            const mood = document.getElementById('mood-select').value;
+            const colorPaletteDiv = document.getElementById('color-palette');
+            colorPaletteDiv.innerHTML = '';
+
+            if (mood && moodColors[mood]) {
+                moodColors[mood].forEach(color => {
+                    const colorBlock = document.createElement('div');
+                    colorBlock.className = 'color-block';
+                    colorBlock.style.backgroundColor = color;
+
+                    // Create the copy button
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-btn';
+                    copyButton.textContent = 'Copy';
+                    copyButton.onclick = () => copyToClipboard(color);
+
+                    // Append the button to the color block
+                    colorBlock.appendChild(copyButton);
+                    colorPaletteDiv.appendChild(colorBlock);
+                });
+            } else {
+                alert('Please select a mood to generate a palette.');
+            }
+        }
+
+        // Function to copy color value to clipboard
+        function copyToClipboard(color) {
+            const textarea = document.createElement('textarea');
+            textarea.value = color;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert(`Color ${color} copied to clipboard!`);
+        }
+    </script>
+</body>
+</html>
