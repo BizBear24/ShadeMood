@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoodShade - AI Color Palette Generator</title>
     <style>
+    /* Body and Background Animation */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    overflow: hidden;
+    animation: gradientAnimation 10s ease infinite;
+    background-size: 400% 400%;
+}
+/* Gradient Animation */
+@keyframes gradientAnimation {
+    0% { background-color: #ff004d; }
+    25% { background-color: #ff77ab; }
+    50% { background-color: #00e1ff; }
+    75% { background-color: #ff9900; }
+    100% { background-color: #ff004d; }
+}
+
+/* Container with White Border */
+.container {
+    text-align: center;
+    padding: 20px;
+    background: black;
+    border: 2px solid white;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
         /* Basic reset and styling */
         body, html {
             margin: 0;
