@@ -12,7 +12,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: gradient (45deg, #ff004d, #ff77ab, #00e1ff, #ff9900);
+    background: linear-gradient (45deg, #ff004d, #ff77ab, #00e1ff, #ff9900);
     overflow: hidden;
     animation: gradientAnimation 10s ease infinite;
     background-size: 1000% 1000%;
@@ -45,7 +45,20 @@ body {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #121212;
+            background-color: linear-gradient (45deg, #ff004d, #ff77ab, #00e1ff, #ff9900);
+animation: gradientAnimation 10s ease infinite;
+    background-size: 1000% 1000%;
+}
+/* Gradient Animation */
+@keyframes gradientAnimation {
+    0% { background-color: #ff004d; }
+    25% { background-color: #ff77ab; }
+    50% { background-color: #00e1ff; }
+    75% { background-color: #ff9900; }
+    100% { background-color: #ff004d; }
+}
+
+        
             color: #ffffff;
             overflow: hidden;
         }
@@ -62,7 +75,6 @@ body {
             background: #1a1a1a;
         }
 
-        /* Dropdown styling */
         select {
             background-color: #333;
             color: #ffffff;
@@ -75,7 +87,6 @@ body {
             border-radius: 10px;
         }
 
-        /* Button styling */
         button {
             margin-top: 1em;
             padding: 0.7em 1.5em;
@@ -91,7 +102,7 @@ body {
             background-color: #e0e0e0;
         }
 
-        /* Color palette display */
+    
         .palette {
             display: flex;
             justify-content: space-around;
